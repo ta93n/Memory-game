@@ -5,7 +5,7 @@ DOMContentLoadedとは、最初のHTML文書の読み込みと解析が完了し
 スタイルシート、画像、サブフレームの読み込みが完了するのを待たずに発生
 */
 document.addEventListener('DOMContentLoaded', ()=>{
-  const cardArray =[ // カードの配列を定義
+  const cardArray =[ //カードの配列を定義
     {
       name: 'kaeru(中野駅)',
       img: 'images/kaeru.jpeg'
@@ -120,6 +120,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
   ]
 
+  /*
+  sort関数は引数に関数を指定でき、ソートのルールを指定できる
+
+
+  */
   cardArray.sort(() => 0.5 - Math.random())
 
   const grid = document.querySelector('.grid')
@@ -128,14 +133,14 @@ document.addEventListener('DOMContentLoaded', ()=>{
   var cardsChosenId = []
   const cardsWon = []
 
-  //create your board
+  //盤面を生成
   function createBoard() {
     for (let i = 0; i < cardArray.length; i++) {
-      var card = document.createElement('img')
-      card.setAttribute('src', 'images/mic.jpeg')
+      var card = document.createElement('img') // 指定したHTML要素(ここではimg)を生成
+      card.setAttribute('src', 'images/kaeru.jpeg') //指定の要素に新しい属性を追加 or 属性の値を変更
       card.setAttribute('data-id', i)
-      card.addEventListener('click', flipCard)
-      grid.appendChild(card)
+      card.addEventListener('click', flipCard) //クリックイベントが起きたらflipCard関数を実行
+      grid.appendChild(card) //div要素(class="grid")にcard(img)を追加
     }
   }
 
