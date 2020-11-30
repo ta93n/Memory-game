@@ -137,6 +137,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
       var card = document.createElement('img') //指定したHTML要素(ここではimg)を生成
       card.setAttribute('src', 'images/ramen.jpeg') //指定の要素に属性を追加(画像をramen.jpegに指定)
       card.setAttribute('data-id', i) //imgにdata-idを与える(0,1,2,3…)
+      card.setAttribute('width', 200)
+      card.setAttribute('height', 200)
       card.addEventListener('click', flipCard) //画像をクリックしたらflipCard関数を実行
       grid.appendChild(card) //div要素(class="grid")にcard(img)を追加
     }
