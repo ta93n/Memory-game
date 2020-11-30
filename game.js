@@ -122,66 +122,66 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   /*
   sort関数は引数に関数を指定でき、ソートのルールを指定できる
-
-
   */
   cardArray.sort(() => 0.5 - Math.random())
 
   const grid = document.querySelector('.grid')
   const resultDisplay = document.querySelector('#result')
-  var cardsChosen = []
-  var cardsChosenId = []
-  const cardsWon = []
+  var cardsChosen = [] //空の配列を定義(選んだカードの名前を格納)
+  var cardsChosenId = [] //空の配列を定義(選んだカードのIDを格納)
+  const cardsWon = [] //空の配列を定義(マッチングしたカードの名前を格納)
 
   //盤面を生成
   function createBoard() {
     for (let i = 0; i < cardArray.length; i++) {
-      var card = document.createElement('img') // 指定したHTML要素(ここではimg)を生成
-      card.setAttribute('src', 'images/kaeru.jpeg') //指定の要素に新しい属性を追加 or 属性の値を変更
-      card.setAttribute('data-id', i)
-      card.addEventListener('click', flipCard) //クリックイベントが起きたらflipCard関数を実行
+      var card = document.createElement('img') //指定したHTML要素(ここではimg)を生成
+      card.setAttribute('src', 'images/ramen.jpeg') //指定の要素に属性を追加(画像をramen.jpegに指定)
+      card.setAttribute('data-id', i) //imgにdata-idを与える(0,1,2,3…)
+      card.addEventListener('click', flipCard) //画像をクリックしたらflipCard関数を実行
       grid.appendChild(card) //div要素(class="grid")にcard(img)を追加
     }
   }
 
-  //check for matches
+  //めくられた2枚のカードの状態を確認
   function checkForMatch() {
     var cards = document.querySelectorAll('img')
     const optionOneId = cardsChosenId[0]
     const optionTwoId = cardsChosenId[1]
 
+    //1枚目にめくったカードをもう一度めくろうとした場合
     if(optionOneId == optionTwoId) {
-      cards[optionOneId].setAttribute('src', 'images/mic.jpeg')
-      cards[optionTwoId].setAttribute('src', 'images/mic.jpeg')
-      alert('Dont click twice')
+      cards[optionOneId].setAttribute('src', 'images/ramen.jpeg')
+      cards[optionTwoId].setAttribute('src', 'images/ramen.jpeg')
+      alert('1枚目とは別のカードをめくってね')
     }
+    //1枚目と2枚目のカードの名前が同じだった場合
     else if (cardsChosen[0] === cardsChosen[1]) {
-      alert(`You Found ${cardArray[optionOneId].name}`)
-      //cards[optionOneId].setAttribute('src', 'images/blank.jpeg')
-      //cards[optionTwoId].setAttribute('src', 'images/blank.jpeg')
-      cards[optionOneId].removeEventListener('click', flipCard)
-      cards[optionTwoId].removeEventListener('click', flipCard)
-      cardsWon.push(cardsChosen)
+      alert(`${cardArray[optionOneId].name}のラーメンを見つけた！食いてえ〜`)
+      cards[optionOneId].removeEventListener('click', flipCard) //以前にaddEventListener()で登録されたイベントリスナーを削除
+      cards[optionTwoId].removeEventListener('click', flipCard) //以前にaddEventListener()で登録されたイベントリスナーを削除
+      cardsWon.push(cardsChosen) //cardsWon配列に、選んだカードの名前を追加
+    //1枚目と2枚目のカードの名前が違った場合
     } else {
-      cards[optionOneId].setAttribute('src', 'images/mic.jpeg')
-      cards[optionTwoId].setAttribute('src', 'images/mic.jpeg')
-      alert('Try again')
+      cards[optionOneId].setAttribute('src', 'images/ramen.jpeg')
+      cards[optionTwoId].setAttribute('src', 'images/ramen.jpeg')
+      alert('もう一度ラーメンを巡る旅へ')
     }
-    cardsChosen = []
-    cardsChosenId = []
-    resultDisplay.textContent = cardsWon.length
+    cardsChosen = [] //選んだカードの名前を格納していたcardsChosen配列を空にする
+    cardsChosenId = [] //選んだカードのIDを格納していたcardsChosenId配列を空にする
+    resultDisplay.textContent = cardsWon.length //resultDisplay(スコア表示させてるh3タグ)のテキスト内容をcardsWon配列の要素数とする
+    // 全てのカードがめくられた場合の処理
     if  (cardsWon.length === cardArray.length/2) {
-      resultDisplay.textContent = 'Congratulations! You found them all!'
+      resultDisplay.textContent = '今日からお前が二郎だ。'
     }
   }
 
-  //flip your card
+  //カードをめくる
   function flipCard() {
     var cardId = this.getAttribute('data-id')
-    cardsChosen.push(cardArray[cardId].name)
-    cardsChosenId.push(cardId)
-    this.setAttribute('src', cardArray[cardId].img)
-    if (cardsChosen.length ===2) {
+    cardsChosen.push(cardArray[cardId].name) //空のcardsChosen配列にカードの名前を追加(カードはcardArrayから取ってくる)
+    cardsChosenId.push(cardId) //空のcardsChosenId配列にcardIdを追加
+    this.setAttribute('src', cardArray[cardId].img) //this(ここではcard)の画像を(ramen.jpegから)cardArrayから取ってきたカードの画像に変更
+    if (cardsChosen.length ===2) { //cardsChosen配列の要素数が2になる(2枚のカードがめくられた状態)と、500ミリ秒後にcheckForMatch関数を実行
       setTimeout(checkForMatch, 500)
     }
   }
