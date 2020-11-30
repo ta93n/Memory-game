@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
   //めくられた2枚のカードの状態を確認
   async function checkForMatch() { //asyncとawaitで、前の処理が完了してから0.5秒待つ設定
-    await new Promise(resolve => setTimeout(resolve, 500))
+    await new Promise(resolve => setTimeout(resolve, 800))
 
     var cards = document.querySelectorAll('img')
     const optionOneId = cardsChosenId[0]
