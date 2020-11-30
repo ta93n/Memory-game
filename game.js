@@ -145,7 +145,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
   }
 
   //めくられた2枚のカードの状態を確認
-  function checkForMatch() {
+  async function checkForMatch() { //asyncとawaitで、前の処理が完了してから0.5秒待つ設定
+    await new Promise(resolve => setTimeout(resolve, 500))
+
     var cards = document.querySelectorAll('img')
     const optionOneId = cardsChosenId[0]
     const optionTwoId = cardsChosenId[1]
@@ -183,8 +185,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
     cardsChosen.push(cardArray[cardId].name) //空のcardsChosen配列にカードの名前を追加(カードはcardArrayから取ってくる)
     cardsChosenId.push(cardId) //空のcardsChosenId配列にcardIdを追加
     this.setAttribute('src', cardArray[cardId].img) //this(ここではcard)の画像を(ramen.jpegから)cardArrayから取ってきたカードの画像に変更
-    if (cardsChosen.length ===2) { //cardsChosen配列の要素数が2になる(2枚のカードがめくられた状態)と、500ミリ秒後にcheckForMatch関数を実行
-      setTimeout(checkForMatch, 500)
+    if (cardsChosen.length ===2) { //cardsChosen配列の要素数が2になる(2枚のカードがめくられた状態)と、checkForMatch関数を実行
+      checkForMatch()
     }
   }
 
